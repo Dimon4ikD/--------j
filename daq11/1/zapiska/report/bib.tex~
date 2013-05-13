@@ -1,0 +1,37 @@
+\begin{thebibliography}{}
+
+\bibitem{convex}
+\link{http://edu.msiu.ru/files/8868-lecture.html}~---
+Описание проекта <<Выпуклая оболочка>>.
+
+\bibitem{roganov-2002}
+Е.А. Роганов
+{\em Основы информатики и программирования.}~---
+М., МГИУ, 2002.
+
+\bibitem{ruby}
+\link{http://ru.wikipedia.org/wiki/Ruby}~---
+Википедия (свободная энциклопедия) о языке Ruby.
+
+\bibitem{polyedr}
+\link{http://edu.msiu.ru/files/10396-lecture.html}~---
+Описание проекта <<Изображение проекции полиэдра>>.
+
+\bibitem{rlatex}
+С.М. Львовский.
+{\em Набор и вёрстка в системе \LaTeX, 3-е изд., испр. и доп.}~---
+М., МЦНМО, 2003. Доступны исходные тексты этой книги.
+
+\bibitem{texbook}
+D.~E.~Knuth. {\em The \TeX{}book.}~---
+Addison-Wesley, 1984. Русский перевод:
+Дональд~Е.~Кнут.
+{\em Все про \TeX.}~--- Протвино, РД\TeX, 1993.
+
+\bibitem{roganov-jurists}
+Е.А. Роганов, Н.Б. Тихомиров, А.М. Шелехов.
+{\em Математика и информатика для юристов.}~---
+М., МГИУ, 2005.
+Доступны исходные тексты этой книги.
+
+\end{thebibliography}

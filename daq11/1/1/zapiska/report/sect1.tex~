@@ -1,0 +1,106 @@
+\section{Первая модификация проекта <<Выпуклая оболочка>>}
+
+\subsection{Постановка задачи}
+
+Модифицируйте эталонный проект таким образом, чтобы вычислять сумму углов, под которыми рёбра выпуклой оболочки пересекаю заданную прямую.
+
+После запуска программа предлагает пользователю ввести последовательно координаты вершин выпуклой оболочки. Введённая точка индуктивно добавляется в выпуклую оболочку. Нам же необходимо вместе со значениями периметра и площади выпуклой оболочки выводить сумму острых внутренних углов.
+Это задание не требует серьёзной модификации исходного кода, все функции будут вписываться в файл проекта \verb|polyedr.rb|.
+
+\subsection{Решение}
+
+Для выполнения задания необходимо вычислять внутренние углы, используя координаты вершин выпуклой оболочки. В языке Ruby имеется примесь Math, которая содержит методы вычисления простейших тригонометрических функций, в частности, в данном проекте используется \verb|Math.acos|.
+
+Из аналитический геометрии извеcтно, что угол между векторами $\overline{BA}$ и $\overline{BC}$ можно найти по формуле 
+$$\cos(B) =\dfrac{\overline{BA}\cdot \overline{BC}}{|\overline{BA}|\cdot|\overline{BC}|}.$$
+
+Для точек $A(X_1;Y_1)$ и $B(X_2;Y_2)$ координаты вектора \begin{equation}\overline{AB}=\{X_2-X_1;Y_2-Y_1\}.\label{1}\end{equation}
+Если $\overline{BA}\{X_1;Y_1\}$ и $\overline{BC}\{X_2;Y_2\}$, то скалярное произведение этих векторов $\overline{BA}\cdot \overline{BC}=X_1X_2+Y_1Y_2$, а длина вектора $\sqrt{\overline{BA}^2}=|\overline{BA}|=\sqrt{X_1^2+Y_1^2}$.
+
+Окончательная формула для угла B между векторами $\overline{BA}$ и $\overline{BC}$ выглядит так:
+\begin{equation}\cos(B) =\dfrac{X_1X_2+Y_1Y_2}{\sqrt{X_1^2+Y_1^2}\cdot\sqrt{X_2^2+Y_2^2}}.\label{2}\end{equation}
+
+Метод \verb|Math.acos| возвращает угол в радианах. Так как решено выводить ответ в градусах, воспользуемся формулой $\alpha^\circ = \alpha \times \frac{180}{\pi}$.
+
+\subsection{Модификация кода}
+
+\begin{small}
+\begin{verbatim}
+def get_sum
+	return 0.0 unless self.respond_to? :points
+	pts = self.points
+	p pts
+	s = 0.0
+	pts.size.times do |i|
+   	p1,p2 = pts[i-1], pts[i]#находим вершины ребра
+	  m = cross_point $points[0], $points[1], p1, p2
+	  if m
+      	cp = (m == p1) ? p2 : p1
+      	cl = (m == $points[0]) ? $points[1] : $points[0]
+     	 s += angle(cp, m, cl).abs unless cp == cl
+	  end
+	end
+	s
+  end
+\end{verbatim}
+\end{small}
+
+находит уравнение прямой, заданной двумя точками
+\begin{small}
+\begin{verbatim}
+  def equation_from_segment(p1, p2)
+    # Ax + By + C = 0
+    x1, y1 = p1.x, p1.y
+    x2, y2 = p2.x, p2.y
+
+    a = y1 - y2
+    b = x2 - x1
+    c = x1 * y2 - x2 * y1
+    [a, b, c]
+  end
+\end{verbatim}
+\end{small}
+
+
+точка пересечения линии AB и отрезка PQ
+\begin{small}
+\begin{verbatim}
+  def cross_point(a, b, p, q)
+    a1, b1, c1 = equation_from_segment(a, b)
+    a2, b2, c2 = equation_from_segment(p, q)
+
+    d = (a1*b2-a2*b1)
+    # Если прямые не перескаются - завершаем работу, отрезки тоже не будут пересекаться
+    return false if d == 0
+
+    # Находим координаты пересечения прямых
+    x = -(c1*b2-c2*b1).to_f / d
+    y = -(a1*c2-a2*c1).to_f / d
+
+    # Точка пересечения прямых должна принадлежать отрезку PQ
+    m = R2Point.new(x, y)
+    return false unless m.inside?(p, q)
+       m
+  end 
+\end{verbatim}
+\end{small}
+
+ищем угол В
+\begin{small}
+\begin{verbatim}
+  def angle (a, b, c)
+    # координаты векторов
+    ba_x = a.x - b.x
+    ba_y = a.y - b.y
+    bc_x = c.x - b.x
+    bc_y = c.y - b.y
+
+    dot_product = ba_x*bc_x + ba_y*bc_y # скалярное произведение
+    module_ba = ba_x**2 + ba_y**2
+    module_bc = bc_x**2 + bc_y**2
+    cos = dot_product / Math.sqrt(module_ba * module_bc)
+    cos *= -1 if cos < 0
+	  return Math.acos(cos)
+  end
+\end{verbatim}
+\end{small}

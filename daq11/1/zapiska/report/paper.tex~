@@ -1,0 +1,28 @@
+\documentclass[a4paper,12pt]{memoir}
+\usepackage{msiu_term_work}
+
+\lstset{language=Ruby,inputencoding=utf8/koi8-r,basicstyle=\small,
+stringstyle=\ttfamily,xleftmargin=1cm}
+
+\begin{document}
+\renewcommand{\contentsname}{{\Large{Оглавление}\hfill}}
+
+\title{Методы хранения и обработки информации}
+{Вычисление периметра и площади части выпуклой оболочки, 
+расположенной в верхней полуплоскости. Нахождение суммы длин полностью 
+видимых рёбер полиэдра}
+{2362}
+{А.\+Ю.~Дьячук}
+{к.ф.-м.н., доцент}
+{Е.\+А.~Роганов}
+{2012}
+
+\input{intro}
+\input{about}
+\input{sect1}
+\input{sect2}
+\input{bib}
+\newpage
+\input{appendix}
+
+\end{document}
